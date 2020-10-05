@@ -1,0 +1,137 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/TitleScreen.gd" type="Script" id=1]
+[ext_resource path="res://scenes/LargeButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/textures/stripes.png" type="Texture" id=3]
+[ext_resource path="res://assets/fonts/Roboto-Black.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="Shader" id=1]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform sampler2D stripe_tex;
+uniform float strip_ampl : hint_range(0.0f, 1.0f);
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	if (COLOR.r > 0.7) { // ignore shadowed parts
+		vec2 corr_uv = UV;
+		corr_uv.x *= TEXTURE_PIXEL_SIZE.y / TEXTURE_PIXEL_SIZE.x;
+		COLOR *= mix(vec4(1.0f), texture(stripe_tex, corr_uv + vec2(TIME, 0.0f)), strip_ampl);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/strip_ampl = 0.0
+shader_param/stripe_tex = ExtResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/strip_ampl = 0.0
+shader_param/stripe_tex = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 100
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=5]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -50 ), Vector2( 0, 0 ) ]
+}
+
+[node name="TitleScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartButton" parent="." instance=ExtResource( 2 )]
+material = SubResource( 2 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -497.948
+margin_top = -113.152
+margin_right = 502.052
+margin_bottom = 112.848
+text = "START"
+anim_speed = 5.0
+base_scale = 0.5
+
+[node name="QuitButton" parent="." instance=ExtResource( 2 )]
+modulate = Color( 1, 0.384314, 0.384314, 1 )
+material = SubResource( 3 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -496.888
+margin_top = 26.6976
+margin_right = 503.112
+margin_bottom = 252.698
+rect_pivot_offset = Vector2( 500, 113 )
+text = "QUIT"
+anim_speed = 5.0
+base_scale = 0.5
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -173.141
+margin_top = -263.108
+margin_right = 181.859
+margin_bottom = -145.108
+rect_pivot_offset = Vector2( -189.677, -13.414 )
+custom_fonts/font = SubResource( 4 )
+text = "ORBITS"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Label"]
+self_modulate = Color( 0, 0, 0, 0.235294 )
+show_behind_parent = true
+margin_top = 10.0
+rect_pivot_offset = Vector2( -189.677, -13.414 )
+custom_fonts/font = SubResource( 4 )
+text = "ORBITS"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/open = SubResource( 5 )

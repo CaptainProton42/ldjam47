@@ -1,0 +1,434 @@
+[gd_scene load_steps=31 format=2]
+
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/ui_elements/LevelProgress.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/EnergyPellet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/HUD.gd" type="Script" id=4]
+[ext_resource path="res://assets/textures/star.png" type="Texture" id=5]
+[ext_resource path="res://scripts/Background.gd" type="Script" id=6]
+[ext_resource path="res://scripts/ParticlesStars.gd" type="Script" id=7]
+[ext_resource path="res://scenes/GameOverScreen.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/CenterAnchor.gd" type="Script" id=9]
+[ext_resource path="res://scripts/Main.gd" type="Script" id=10]
+[ext_resource path="res://scripts/FullSreenControl.gd" type="Script" id=11]
+[ext_resource path="res://scenes/ClearScreen.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/TitleScreen.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/textures/grav_stripe.png" type="Texture" id=14]
+[ext_resource path="res://assets/fonts/Roboto-Black.ttf" type="DynamicFontData" id=15]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.172662, 0.399281, 0.964029, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0.230682 ), 0.0, 0.827495, 0, 0, Vector2( 0.996785, 1 ), 0.834437, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.225376, 0.435726, 0.510851, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 0.596078, 0.196078, 0, 1, 0.596078, 0.196078, 1, 0.772461, 0, 1, 1, 0.772461, 0, 1, 1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "fade_in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ParticlesStars:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ParticlesStars:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2.8, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.352941 ), Color( 1, 1, 1, 0.352941 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("ParticlesStars:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("ParticlesStars:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.8, 0.8 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 3.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("LevelContainer:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 2.42, 0.00507236, 0, -0.31, 0.261995, 0.17, -0.165128 ),
+"times": PoolRealArray( 0, 3 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("LevelContainer:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 2.42, 0.00507236, 0, -0.31, 0.261995, 0.17, -0.165128 ),
+"times": PoolRealArray( 0, 3 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("LevelContainer:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 1.79904, -0.165485, -90, -0.0656691, 15.6765, 0.25, 0 ),
+"times": PoolRealArray( 0, 1, 3 )
+}
+
+[sub_resource type="Animation" id=9]
+length = 3.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("LevelContainer:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 2.42, 0.00507236 ),
+"times": PoolRealArray( 0.1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("LevelContainer:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 2.42, 0.00507236 ),
+"times": PoolRealArray( 0.1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("LevelContainer:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.1 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath(".:scale:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.22, 0.284073, 1, -2.58, -0.000805259, 0.25, 0 ),
+"times": PoolRealArray( 0, 3 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath(".:scale:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.22, 0.284073, 1, -2.58, -0.000805259, 0.25, 0 ),
+"times": PoolRealArray( 0, 3 )
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.05, 1.05 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.95, 0.95 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.02, 1.02 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../../CenterAnchor/LevelContainer:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -0.3, 0.3, 0.0 ]
+}
+
+[sub_resource type="DynamicFont" id=14]
+size = 100
+font_data = ExtResource( 15 )
+
+[sub_resource type="Animation" id=15]
+resource_name = "display"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 10 )
+player_path = NodePath("CenterAnchor/Player")
+level_container_path = NodePath("CenterAnchor/LevelContainer")
+hud_path = NodePath("UI/HUD")
+game_over_screen_path = NodePath("UI/GameOverScreen")
+clear_screen_path = NodePath("UI/ClearScreen")
+title_screen_path = NodePath("UI/TitleScreen")
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
+mouse_filter = 2
+color = Color( 0.25098, 0.231373, 0.313726, 1 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+player_path = NodePath("../CenterAnchor/Player")
+
+[node name="ParticlesStars" type="CPUParticles2D" parent="Background"]
+self_modulate = Color( 1, 1, 1, 0.352941 )
+position = Vector2( 640, 360 )
+amount = 220
+lifetime = 28.0
+preprocess = 30.0
+texture = ExtResource( 5 )
+emission_shape = 2
+emission_rect_extents = Vector2( 0, 0 )
+direction = Vector2( 0, 1 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 50.0
+initial_velocity_random = 0.5
+scale_amount = 0.05
+scale_amount_random = 0.1
+color_ramp = SubResource( 1 )
+script = ExtResource( 7 )
+
+[node name="ParticlesGravAnomaly" type="CPUParticles2D" parent="Background"]
+self_modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 640, 360 )
+scale = Vector2( 0.998424, 1 )
+amount = 100
+lifetime = 5.0
+preprocess = 30.0
+texture = ExtResource( 14 )
+emission_shape = 2
+emission_rect_extents = Vector2( 0, 0 )
+flag_align_y = true
+direction = Vector2( 0, 1 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 200.0
+scale_amount_random = 0.1
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+script = ExtResource( 7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Background/ParticlesGravAnomaly"]
+anims/fade_in = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Background"]
+anims/escape = SubResource( 5 )
+anims/orbit_down = SubResource( 6 )
+anims/orbit_up = SubResource( 7 )
+
+[node name="CenterAnchor" type="Node2D" parent="."]
+script = ExtResource( 9 )
+
+[node name="LevelContainer" type="Node2D" parent="CenterAnchor"]
+
+[node name="Player" parent="CenterAnchor" instance=ExtResource( 1 )]
+position = Vector2( 542.651, 302.034 )
+level_container_path = NodePath("../LevelContainer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CenterAnchor"]
+anims/escape = SubResource( 8 )
+anims/start = SubResource( 9 )
+
+[node name="UI" type="Control" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
+mouse_filter = 2
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HUD" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_scale = Vector2( 1.5, 1.5 )
+rect_pivot_offset = Vector2( 640, 360 )
+mouse_filter = 2
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+player_path = NodePath("../../CenterAnchor/Player")
+level_container_path = NodePath("../../CenterAnchor/LevelContainer")
+
+[node name="EnergyPellet" parent="UI/HUD" instance=ExtResource( 3 )]
+margin_left = 39.0
+margin_top = 50.0
+margin_right = 39.0
+margin_bottom = 50.0
+rect_scale = Vector2( 0.348004, 0.348004 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/HUD"]
+anims/escape = SubResource( 10 )
+anims/orbit_down = SubResource( 11 )
+anims/orbit_up = SubResource( 12 )
+anims/shake = SubResource( 13 )
+
+[node name="LevelProgress" parent="UI/HUD" instance=ExtResource( 2 )]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -113.433
+margin_top = -508.318
+margin_right = -4.43335
+margin_bottom = 491.682
+
+[node name="GameOverScreen" parent="UI" instance=ExtResource( 8 )]
+
+[node name="ClearScreen" parent="UI" instance=ExtResource( 12 )]
+visible = false
+
+[node name="TitleScreen" parent="UI" instance=ExtResource( 13 )]
+
+[node name="Label" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 467.688
+margin_top = 185.008
+margin_right = 836.688
+margin_bottom = 303.008
+custom_fonts/font = SubResource( 14 )
+text = "LEVEL 1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Label"]
+anims/display = SubResource( 15 )

@@ -1,0 +1,161 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://scenes/LargeButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/GameOverScreen.gd" type="Script" id=2]
+[ext_resource path="res://assets/textures/stripes.png" type="Texture" id=3]
+[ext_resource path="res://scenes/ui_elements/WarningMessage.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/ui_elements/LED.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/textures/ui_elements/background_3.png" type="Texture" id=6]
+[ext_resource path="res://assets/textures/ui_elements/background_1.png" type="Texture" id=7]
+[ext_resource path="res://assets/textures/ui_elements/background_2.png" type="Texture" id=8]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D stripe_tex;
+uniform float strip_ampl : hint_range(0.0f, 1.0f);
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	if (COLOR.r > 0.7) { // ignore shadowed parts
+		vec2 corr_uv = UV;
+		corr_uv.x *= TEXTURE_PIXEL_SIZE.y / TEXTURE_PIXEL_SIZE.x;
+		COLOR *= mix(vec4(1.0f), texture(stripe_tex, corr_uv + vec2(TIME, 0.0f)), strip_ampl);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/strip_ampl = 0.0
+shader_param/stripe_tex = ExtResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/strip_ampl = 0.0
+shader_param/stripe_tex = ExtResource( 3 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "open"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -900 ), Vector2( 0, 0 ) ]
+}
+
+[node name="GameOverScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -900.0
+margin_bottom = -900.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.454902, 0.454902, 0.486275, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel1" type="TextureRect" parent="Background"]
+margin_right = 364.0
+margin_bottom = 204.0
+texture = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel2" type="TextureRect" parent="Background"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1199.0
+margin_top = -605.0
+margin_right = 4.0
+margin_bottom = 1.0
+texture = ExtResource( 7 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LED2" parent="Background" instance=ExtResource( 5 )]
+margin_left = 405.583
+margin_top = 35.4252
+margin_right = -783.417
+margin_bottom = -582.575
+
+[node name="LED" parent="Background" instance=ExtResource( 5 )]
+anchor_left = 1.0
+anchor_top = 1.0
+margin_left = -120.645
+margin_top = -243.841
+margin_right = -120.645
+margin_bottom = -243.841
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = -58.3261
+margin_top = -321.0
+margin_right = 366.674
+margin_bottom = 11.0
+texture = ExtResource( 8 )
+expand = true
+
+[node name="WarningMessage" parent="." instance=ExtResource( 4 )]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -104.0
+margin_top = 24.0
+margin_right = 599.0
+margin_bottom = 137.0
+
+[node name="Buttons" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackToTitle" parent="Buttons" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.384314, 0.384314, 1 )
+material = SubResource( 2 )
+margin_left = -440.0
+margin_top = -216.0
+margin_right = 560.0
+margin_bottom = 9.99994
+focus_neighbour_top = NodePath("../Retry")
+text = "BACK TO TITLE"
+
+[node name="Retry" parent="Buttons" instance=ExtResource( 1 )]
+modulate = Color( 0.384314, 0.682353, 1, 1 )
+material = SubResource( 3 )
+margin_left = -440.0
+margin_top = -392.0
+margin_right = 560.0
+margin_bottom = -166.0
+focus_neighbour_bottom = NodePath("../BackToTitle")
+text = "RETRY"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/open = SubResource( 4 )

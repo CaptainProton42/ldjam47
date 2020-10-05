@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/Planet.gd" type="Script" id=1]
+[ext_resource path="res://assets/textures/giant.png" type="Texture" id=2]
+[ext_resource path="res://assets/textures/circle.png" type="Texture" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 128.0
+
+[node name="Planet" type="Area2D"]
+scale = Vector2( 1e-05, 1e-05 )
+collision_layer = 2
+script = ExtResource( 1 )
+color = Color( 0, 0, 0, 1 )
+size = 0.0
+type = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.2, 0.2 )
+shape = SubResource( 1 )
+
+[node name="Shadow" type="Sprite" parent="."]
+self_modulate = Color( 0, 0, 0, 0.196078 )
+position = Vector2( -3, 3 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 0, 0, 0, 1 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 2 )

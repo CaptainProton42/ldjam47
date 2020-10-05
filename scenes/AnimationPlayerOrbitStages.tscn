@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "change_size"
+
+[node name="AnimationPlayerOrbitStages" type="AnimationPlayer"]
+anims/change_size = SubResource( 1 )

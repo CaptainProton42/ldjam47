@@ -1,0 +1,140 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/fonts/Roboto-Black.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://scenes/LargeButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/textures/stripes.png" type="Texture" id=3]
+[ext_resource path="res://scripts/ClearScreen.gd" type="Script" id=4]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D stripe_tex;
+uniform float strip_ampl : hint_range(0.0f, 1.0f);
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	if (COLOR.r > 0.7) { // ignore shadowed parts
+		vec2 corr_uv = UV;
+		corr_uv.x *= TEXTURE_PIXEL_SIZE.y / TEXTURE_PIXEL_SIZE.x;
+		COLOR *= mix(vec4(1.0f), texture(stripe_tex, corr_uv + vec2(TIME, 0.0f)), strip_ampl);
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/strip_ampl = 0.0
+shader_param/stripe_tex = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 100
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 50
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -50 ), Vector2( 0, 0 ) ]
+}
+
+[node name="ClearScreen" type="Control"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -50.0
+margin_bottom = -50.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_edit_vertical_guides_": [ 640.0, 390.0 ]
+}
+
+[node name="ContinueButton" parent="." instance=ExtResource( 2 )]
+material = SubResource( 2 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = 43.1573
+margin_right = 500.0
+margin_bottom = 269.157
+text = "CONTINUE"
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -230.897
+margin_top = -255.439
+margin_right = 236.103
+margin_bottom = -137.439
+rect_pivot_offset = Vector2( -189.677, -13.414 )
+custom_fonts/font = SubResource( 6 )
+text = "ESCAPED!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Label"]
+self_modulate = Color( 0, 0, 0, 0.235294 )
+show_behind_parent = true
+margin_top = 10.0
+rect_pivot_offset = Vector2( -189.677, -13.414 )
+custom_fonts/font = SubResource( 6 )
+text = "ESCAPED!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -406.59
+margin_top = -134.492
+margin_right = 406.41
+margin_bottom = -16.4916
+rect_pivot_offset = Vector2( -189.677, -13.414 )
+custom_fonts/font = SubResource( 7 )
+text = "SCORE: "
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/open = SubResource( 8 )

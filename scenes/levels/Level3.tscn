@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/Level.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Sun.tscn" type="PackedScene" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "grav_anomaly"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sun:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.772549, 0, 1, 1 ) ]
+}
+
+[node name="Level" type="Node2D"]
+script = ExtResource( 1 )
+initial_energy = 1
+orbit_files = [ "res://scenes/orbits/Blank.tscn", "res://scenes/orbits/level3/Orbit1.tscn", "res://scenes/orbits/level3/Orbit2.tscn", "res://scenes/orbits/level3/Orbit3.tscn", "res://scenes/orbits/level3/Orbit4.tscn", "res://scenes/orbits/Blank.tscn", "res://scenes/orbits/Blank.tscn", "res://scenes/orbits/Blank.tscn", "res://scenes/orbits/level3/Orbit5.tscn", "res://scenes/orbits/Blank.tscn", "res://scenes/orbits/level3/Orbit6.tscn", "res://scenes/orbits/level3/Orbit7.tscn", "res://scenes/orbits/level3/Orbit8.tscn" ]
+
+[node name="Orbits" type="Node2D" parent="."]
+
+[node name="Sun" parent="." instance=ExtResource( 2 )]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/grav_anomaly = SubResource( 1 )

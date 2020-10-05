@@ -1,0 +1,128 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/Orbit.gd" type="Script" id=1]
+[ext_resource path="res://scenes/EnergyPelletCollectible.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/OrbitLine2D.tscn" type="PackedScene" id=4]
+
+
+
+[node name="PelettMania" type="Node2D"]
+position = Vector2( 0, -1.49829 )
+scale = Vector2( 1.3, 1.3 )
+script = ExtResource( 1 )
+orbital_velocity = -0.03
+
+[node name="OrbitLine2D" parent="." instance=ExtResource( 4 )]
+
+[node name="EnergyPelletCollectible5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 194.952, -158.154 )
+
+[node name="EnergyPelletCollectible6" parent="." instance=ExtResource( 3 )]
+position = Vector2( 165.036, -186.982 )
+
+[node name="EnergyPelletCollectible7" parent="." instance=ExtResource( 3 )]
+position = Vector2( 130.224, -210.915 )
+
+[node name="EnergyPelletCollectible8" parent="." instance=ExtResource( 3 )]
+position = Vector2( 87.2539, -233.216 )
+
+[node name="EnergyPelletCollectible9" parent="." instance=ExtResource( 3 )]
+position = Vector2( 42.1077, -246.815 )
+
+[node name="EnergyPelletCollectible10" parent="." instance=ExtResource( 3 )]
+position = Vector2( -0.318779, -249.534 )
+
+[node name="EnergyPelletCollectible11" parent="." instance=ExtResource( 3 )]
+position = Vector2( -48.1846, -244.639 )
+
+[node name="EnergyPelletCollectible12" parent="." instance=ExtResource( 3 )]
+position = Vector2( -88.9793, -233.76 )
+
+[node name="EnergyPelletCollectible13" parent="." instance=ExtResource( 3 )]
+position = Vector2( -129.774, -213.635 )
+
+[node name="EnergyPelletCollectible14" parent="." instance=ExtResource( 3 )]
+position = Vector2( -161.322, -191.334 )
+
+[node name="EnergyPelletCollectible15" parent="." instance=ExtResource( 3 )]
+position = Vector2( -190.15, -162.505 )
+
+[node name="EnergyPelletCollectible16" parent="." instance=ExtResource( 3 )]
+position = Vector2( -215.715, -126.062 )
+
+[node name="EnergyPelletCollectible17" parent="." instance=ExtResource( 3 )]
+position = Vector2( -236.384, -86.8992 )
+
+[node name="EnergyPelletCollectible18" parent="." instance=ExtResource( 3 )]
+position = Vector2( -248.895, -30.8745 )
+
+[node name="EnergyPelletCollectible19" parent="." instance=ExtResource( 3 )]
+position = Vector2( -249.439, 14.2717 )
+
+[node name="EnergyPelletCollectible20" parent="." instance=ExtResource( 3 )]
+position = Vector2( -238.56, 70.2965 )
+
+[node name="EnergyPelletCollectible21" parent="." instance=ExtResource( 3 )]
+position = Vector2( -221.154, 110.547 )
+
+[node name="EnergyPelletCollectible22" parent="." instance=ExtResource( 3 )]
+position = Vector2( -200.485, 153.518 )
+
+[node name="EnergyPelletCollectible23" parent="." instance=ExtResource( 3 )]
+position = Vector2( 219.429, -119.535 )
+
+[node name="EnergyPelletCollectible24" parent="." instance=ExtResource( 3 )]
+position = Vector2( 238.617, -83.899 )
+
+[node name="EnergyPelletCollectible25" parent="." instance=ExtResource( 3 )]
+position = Vector2( 249.582, -42.0953 )
+
+[node name="EnergyPelletCollectible26" parent="." instance=ExtResource( 3 )]
+position = Vector2( 250.268, 2.44963 )
+
+[node name="EnergyPelletCollectible27" parent="." instance=ExtResource( 3 )]
+position = Vector2( 248.897, 40.8268 )
+
+[node name="EnergyPelletCollectible28" parent="." instance=ExtResource( 3 )]
+position = Vector2( 239.303, 75.0921 )
+
+[node name="EnergyPelletCollectible29" parent="." instance=ExtResource( 3 )]
+position = Vector2( 224.911, 109.357 )
+
+[node name="EnergyPelletCollectible30" parent="." instance=ExtResource( 3 )]
+position = Vector2( 207.779, 144.308 )
+
+[node name="EnergyPelletCollectible31" parent="." instance=ExtResource( 3 )]
+position = Vector2( 186.534, 168.979 )
+
+[node name="EnergyPelletCollectible32" parent="." instance=ExtResource( 3 )]
+position = Vector2( 158.437, 194.335 )
+
+[node name="EnergyPelletCollectible33" parent="." instance=ExtResource( 3 )]
+position = Vector2( 125.542, 217.636 )
+
+[node name="EnergyPelletCollectible34" parent="." instance=ExtResource( 3 )]
+position = Vector2( 83.7382, 235.454 )
+
+[node name="EnergyPelletCollectible35" parent="." instance=ExtResource( 3 )]
+position = Vector2( 47.4169, 248.475 )
+
+[node name="EnergyPelletCollectible36" parent="." instance=ExtResource( 3 )]
+position = Vector2( 11.0956, 252.586 )
+
+[node name="EnergyPelletCollectible37" parent="." instance=ExtResource( 3 )]
+position = Vector2( -30.0228, 249.16 )
+
+[node name="EnergyPelletCollectible38" parent="." instance=ExtResource( 3 )]
+position = Vector2( -71.1412, 240.251 )
+
+[node name="EnergyPelletCollectible39" parent="." instance=ExtResource( 3 )]
+position = Vector2( -110.204, 225.174 )
+
+[node name="EnergyPelletCollectible40" parent="." instance=ExtResource( 3 )]
+position = Vector2( -139.672, 207.356 )
+
+[node name="EnergyPelletCollectible41" parent="." instance=ExtResource( 3 )]
+position = Vector2( -170.511, 184.056 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -1,0 +1,234 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/textures/energy_pellet_fluid.png" type="Texture" id=1]
+[ext_resource path="res://assets/textures/energy_pellet_glass.png" type="Texture" id=2]
+[ext_resource path="res://assets/textures/bubbles.png" type="Texture" id=3]
+[ext_resource path="res://assets/fonts/Roboto-Black.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://scripts/EnergyPellet.gd" type="Script" id=5]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+const float PI = 3.1415926535;
+
+uniform vec4 color1 : hint_color;
+uniform vec4 color2 : hint_color;
+uniform float height : hint_range(0.0f, 1.0f);
+uniform float wave_amplitude : hint_range(0.0f, 1.0f);
+uniform float angle : hint_range(-180.0f, 180.0f);
+uniform sampler2D bubble_tex;
+
+float waves(vec2 uv, float time) {
+	return 0.5f * (sin(2.0*uv.x + time) +  0.5f * sin(4.0*uv.x + 5.0f * time));
+}
+
+vec2 rotate(vec2 v, float p) {
+	mat2 rot_mat = mat2(vec2(cos(p), -sin(p)),
+				   		vec2(sin(p), cos(p)));
+	return rot_mat * v;
+}
+
+void fragment() {
+	vec2 centered_uv;
+	centered_uv.y = UV.y - 0.5f;
+	centered_uv.x = UV.x - 0.5f;
+	centered_uv.x *= TEXTURE_PIXEL_SIZE.y / TEXTURE_PIXEL_SIZE.x;
+	centered_uv = rotate(centered_uv, PI / 180.0 * angle);
+	centered_uv.y += 0.5f;
+	
+	if (1.0f - centered_uv.y < height + wave_amplitude*waves(UV, TIME)) {
+		COLOR = mix(color1, color2, UV.y) * texture(TEXTURE, UV).a;
+		COLOR *= (1.0f + 2.0f * texture(TEXTURE, UV).r * smoothstep(height - 0.2f, height - 0.6f, 1.0f - centered_uv.y) * texture(bubble_tex, 2.0f* centered_uv + vec2(0.0f, TIME)).r);
+	} else {
+		COLOR = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/color1 = Color( 0.305882, 1, 0.462745, 1 )
+shader_param/color2 = Color( 0.376471, 0.823529, 1, 1 )
+shader_param/height = 0.745
+shader_param/wave_amplitude = 0.086
+shader_param/angle = -35.0
+shader_param/bubble_tex = ExtResource( 3 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "energy_down"
+length = 0.7
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Glas:rect_rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.14, 0.21 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 30.0, 10.0, 45.0, 35.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Glas/Fluid:material:shader_param/angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.06, 0.14, 0.21 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -30.0, -10.0, -45.0, -35.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Glas/Fluid:self_modulate")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.09, 0.21 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.196078, 0.196078, 0.196078, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Glas:rect_scale")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.06, 0.14, 0.21 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Glas/Fluid:material:shader_param/height")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.06, 0.16, 0.27, 0.41, 0.55, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.745, 0.6, 0.6, 0.9, 0.7, 0.8, 0.745 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.7
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Glas:rect_rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.14, 0.21 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 30.0, 10.0, 45.0, 35.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Glas/Fluid:material:shader_param/angle")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.06, 0.14, 0.21 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -30.0, -10.0, -45.0, -35.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Glas/Fluid:self_modulate")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.09, 0.21 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 5, 5, 10, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Glas:rect_scale")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.06, 0.14, 0.21 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Glas/Fluid:material:shader_param/height")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.06, 0.16, 0.27, 0.41, 0.55, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.745, 0.9, 0.9, 0.6, 0.8, 0.7, 0.745 ]
+}
+
+[sub_resource type="DynamicFont" id=5]
+size = 120
+font_data = ExtResource( 4 )
+
+[node name="EnergyPellet" type="Control"]
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Glas" type="TextureRect" parent="."]
+anchor_bottom = 0.5
+margin_left = -51.2981
+margin_top = -102.054
+margin_right = 51.7019
+margin_bottom = 101.946
+rect_rotation = 35.0
+rect_pivot_offset = Vector2( 51, 102 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fluid" type="TextureRect" parent="Glas"]
+show_behind_parent = true
+material = SubResource( 2 )
+margin_left = 9.9692
+margin_top = 10.5226
+margin_right = 91.9692
+margin_bottom = 190.523
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/energy_down = SubResource( 3 )
+anims/energy_up = SubResource( 4 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 60.2705
+margin_top = -20.9514
+margin_right = 395.271
+margin_bottom = 214.049
+custom_fonts/font = SubResource( 5 )
+text = "x01"
+__meta__ = {
+"_edit_use_anchors_": false
+}
